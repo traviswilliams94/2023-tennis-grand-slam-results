@@ -14,13 +14,13 @@ session = Session()
 
 def cli_start_menu():
         print('''
-    [Player      (1)] -- Search for results by Player Name
-    [Tournmament (2)] -- Enter Tournament name to see the final four players
-    [Finish      (3)] -- See which players have achieved a certain tournement finish
-    [New Tourny  (4)] -- Add a New Tournament
-    [All Players (p)] -- See a list of all players in the database
-    [All Trnmts  (t)] -- See a list of the tournaments in the database
-    [Finishes    (f)] -- See a list of the possible finishes
+    [(1)] -- Search a player to see their Grand Slam Results
+    [(2)] -- Enter Tournament name to see the final four players
+    [(3)] -- Search a Tounrament Round to which players were eliminated in that round
+    [(4)] -- Add a New Tournament to the database
+    [(p)] -- See a list of all players in the database
+    [(t)] -- See a list of the tournaments in the database
+    [(r)] -- See a list of the possible tournament results a player can have
         ''')
 
 def cli_start():
@@ -39,7 +39,7 @@ def cli_start():
             show_all_players()
         if (select == 't'):
             show_tournaments()
-        if (select == 'f'):
+        if (select == 'r'):
             show_finish_options()
         select = click.prompt('Select Prompt')
     # if (select == 'x'):
@@ -69,24 +69,60 @@ def search_by_player():
     print(table)
 
 
-    
-
 
 def search_by_tournament():
     tournament_name = click.prompt('\n Enter the Tournament you want to search')
 
+    # semis = ["Semis", "Final", "Winner"]
+
+    searched = (
+                session.query(Player.name, Player.gender, Player.ranking, Tournament.name.label('tournament_name'), Result.finish)
+                .join(Result, Player.id == Result.player_id)
+                .join(Tournament, Tournament.id == Result.tournament_id)
+                .filter(Tournament.name == tournament_name)
+                .filter(Result.finish != "First Round")
+                .filter(Result.finish != "Second Round")
+                .filter(Result.finish != "Third Round")
+                .filter(Result.finish != "Fourth Round")
+                .filter(Result.finish != "Quarters")
+                .filter(Result.finish != "DNP")
+                )
+
     table = PrettyTable()
     table.title = f'Final 4 Players at {tournament_name}'
-    table.field_names = ['player_name', "finish"]
-
-        # table.add_row([
-        #     player.name,
-        #     result.finish
-        # ])
+    table.field_names = ['tournament_name', 'player_name', 'gender', 'finish', 'ranking']
+    for player in searched:
+        table.add_row([
+            player.tournament_name,
+            player.name,
+            player.gender,
+            player.finish,
+            player.ranking
+        ])
     print(table)
 
 def search_by_finish():
-    pass
+    finish_name = click.prompt('\n Enter the Tournament Result you want to search')
+
+    searched = (
+                session.query(Player.name, Player.gender, Player.ranking, Tournament.name.label('tournament_name'), Result.finish)
+                .join(Result, Player.id == Result.player_id)
+                .join(Tournament, Tournament.id == Result.tournament_id)
+                .filter(Result.finish == finish_name)
+                )
+
+    table = PrettyTable()
+    table.title = f'All Players who Finished in {finish_name}'
+    table.field_names = ['tournament_name', 'player_name', 'gender', 'ranking', 'last_round_played']
+    for player in searched:
+        table.add_row([
+            player.tournament_name,
+            player.name,
+            player.gender,
+            player.ranking,
+            player.finish
+        ])
+    print(table)
 
 def add_new_tournament():
     pass

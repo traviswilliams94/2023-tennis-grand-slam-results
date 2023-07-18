@@ -6,6 +6,6 @@ from sqlalchemy.orm import sessionmaker
 
 if __name__ == '__main__':
     print('''
-    Welcom to the 2023 Tennis Grnad Slam Results Finder!
+    Welcome to the 2023 Tennis Grnad Slam Results Finder!
         ''')
     cli_start()
