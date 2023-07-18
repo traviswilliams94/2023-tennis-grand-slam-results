@@ -72,7 +72,7 @@ if __name__ == '__main__':
 
     # seed the tournaments
     aus = Tournament(name="Australian Open")
-    french = Tournament(name="Frenh Open")
+    french = Tournament(name="French Open")
     wimbledon = Tournament(name="Wimbledon")
 
     session.add_all([aus, french, wimbledon])
