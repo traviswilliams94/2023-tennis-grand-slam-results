@@ -7,5 +7,22 @@ from sqlalchemy.orm import sessionmaker
 if __name__ == '__main__':
     print('''
     Welcome to the 2023 Tennis Grnad Slam Results Finder!
+
+                      ___________
+                     /|_|_|_|_|_|\ 
+                    /_|_|_|_|_|_|_\ 
+                   /|_|_|_|_|_|_|_|\ 
+                  |_|_|_|_|_|_|_|_|_|           <-- it's a tennis racquet okay. just go with it
+                  |_|_|_|_|_|_|_|_|_|
+                   \|_|_|_|_|_|_|_|/
+                    \_|_|_|_|_|_|_/
+                     \|_|_|_|_|_|/  
+                          |_| 
+                          |_|
+                          |_|
+                          |_|
+                          |_|
+
+
         ''')
     cli_start()

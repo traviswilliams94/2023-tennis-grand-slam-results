@@ -18,6 +18,7 @@ def cli_start_menu():
     [(2)] -- Enter Tournament name to see the final four players
     [(3)] -- Search a Tounrament Round to which players were eliminated in that round
     [(4)] -- Add a New Tournament to the database
+    [(5)] -- Update a Player's Ranking
     [(p)] -- See a list of all players in the database
     [(t)] -- See a list of the tournaments in the database
     [(r)] -- See a list of the possible tournament results a player can have
@@ -35,6 +36,8 @@ def cli_start():
             search_by_finish()
         if (select == '4'):
             add_new_tournament()
+        if (select == '5'):
+            update_ranking()
         if (select == 'p'):
             show_all_players()
         if (select == 't'):
@@ -72,8 +75,6 @@ def search_by_player():
 
 def search_by_tournament():
     tournament_name = click.prompt('\n Enter the Tournament you want to search')
-
-    # semis = ["Semis", "Final", "Winner"]
 
     searched = (
                 session.query(Player.name, Player.gender, Player.ranking, Tournament.name.label('tournament_name'), Result.finish)
@@ -125,6 +126,9 @@ def search_by_finish():
     print(table)
 
 def add_new_tournament():
+    pass
+
+def update_ranking():
     pass
 
 def show_all_players():

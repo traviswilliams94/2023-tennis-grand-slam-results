@@ -6,11 +6,17 @@ With this app you can:
 
 1. Search a player's name and get a list of their results for each of this year's Grand Slam Tournaments. (US Open will be added after the tournament occurs)
 
-2. Search by Tournament name and see the 1st and second place players along with the other semi-finalists
+2. Search by Tournament name and see the players who reached the semi finals and beyond
 
-3. Search by tournament result and see the  player(s) that have that result each tournament
+3. Search by tournament result (First Round, Semis, Winner, etc) and see the  player(s) that have that result each tournament
 
-Players included are the men and women ranked 1-20 in the world as of July 17,2023
+4. Add a Tournament to the database
+
+5. Add a Result to the database
+
+6. Update a player's ranking
+
+Players included are the men and women ranked 1-20 in the world as of July 17,2023. A couple extras because some dark horses did quite well on the women's side
 
 Men:
 
