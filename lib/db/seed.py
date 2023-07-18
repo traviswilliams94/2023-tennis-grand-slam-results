@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from models import Player, Tournament, Result
+from models import Player, Tournament, Result, Base
 
 engine = create_engine('sqlite:///tournament_results.db')
 Base.metadata.create_all(engine)
@@ -13,6 +13,10 @@ session = Session()
 # tournament_names = ["Australian Open", "French Open", "Wimbledon"]
 
 if __name__ == '__main__':
+
+    session.query(Player).delete()
+    session.query(Tournament).delete()
+    session.query(Result).delete()
    
     # seed the  players
     player1 = Player(name="Carlos Alcaraz", gender="male", ranking= 1)
@@ -67,9 +71,9 @@ if __name__ == '__main__':
     
 
     # seed the tournaments
-    aus = Tournament(tournament_name="Australian Open")
-    french = Tournament(tournament_name="Frenh Open")
-    wimbledon = Tournament(tournament_name="Wimbledon")
+    aus = Tournament(name="Australian Open")
+    french = Tournament(name="Frenh Open")
+    wimbledon = Tournament(name="Wimbledon")
 
     session.add_all([aus, french, wimbledon])
     session.commit()
@@ -80,11 +84,11 @@ if __name__ == '__main__':
     result2 = Result(player_id= player1.id, tournament_id= french.id, finish="Semis")
     result3 = Result(player_id= player1.id, tournament_id= wimbledon.id, finish="Winner")
 
-    result4 = Result(player_id= player2.id , tournament_id= aus.id, finish="Winner")
+    result4 = Result(player_id= player2.id, tournament_id= aus.id, finish="Winner")
     result5 = Result(player_id= player2.id, tournament_id= french.id, finish="Winner")
     result6 = Result(player_id= player2.id, tournament_id= wimbledon.id, finish="Final")
 
-    result7 = Results(player_id= player3.id, tournament_id= aus.id, finish="Third Round") 
+    result7 = Result(player_id= player3.id, tournament_id= aus.id, finish="Third Round") 
     result8 = Result(player_id= player3.id, tournament_id= french.id, finish="First Round")
     result9 = Result(player_id= player3.id, tournament_id= wimbledon.id, finish="Semis")
 

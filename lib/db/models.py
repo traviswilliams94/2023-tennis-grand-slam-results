@@ -21,26 +21,30 @@ class Player(Base):
 
 class Tournament(Base):
     __tablename__ = 'tournaments'
+    __table_args__ = (PrimaryKeyConstraint('id'),)
 
     id = Column(Integer(), primary_key=True)
-    tournament_name = Column(String())
+    name = Column(String())
 
     def __repr__(self):
         return f"Tournament: {self.name}"
 
 class Result(Base):
     __tablename__ = 'results'
+    __table_args__ = (PrimaryKeyConstraint('id'),)
 
     id = Column(Integer(), primary_key=True)
     player_id = Column(Integer(), ForeignKey('players.id'))
     tournament_id = Column(Integer(), ForeignKey('tournaments.id'))
     finish = Column(String())
 
-    player = relationship('Player', backref=backref("players"))
-    tournament = relationship('Tournament', backref=backref("tournaments"))
+    player = relationship('Player', backref=backref("players.id"))
+    tournament = relationship('Tournament', backref=backref("tournaments.id"))
 
     def __repr__(self):
         return f"{self.id}," \
             + f"Player Id: {self.player_id}," \
             + f"Tournament ID: {self.tournament_id}," \
             + f"Finish: {self.finish}"
+
+    
