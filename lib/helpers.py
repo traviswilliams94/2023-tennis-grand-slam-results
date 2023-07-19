@@ -22,7 +22,7 @@ def cli_start_menu():
     [(p)] -- See a list of all players in the database
     [(t)] -- See a list of the tournaments in the database
     [(r)] -- See a list of the possible tournament results a player can have
-    [(x)] -- Return to main menu
+    [(x)] -- Return to main menu, or exit app from main menu
         ''')
 
 def cli_start():
@@ -155,7 +155,7 @@ def update_ranking():
             session.query(Player).filter(Player.name == player_to_update).update({
                 Player.ranking: f'{update_ranking}'
             })
-
+            session.commit()
             print(f'{player_to_update}\'s ranking has been changed to {update_ranking}')
 
 def show_all_players():
