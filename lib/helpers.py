@@ -17,7 +17,7 @@ def cli_start_menu():
         print('''
     [(1)]   -- Search a player to see their Grand Slam Results
     [(2)]   -- Enter Tournament name to see the final four players
-    [(3)]   -- Search a Tounrament Round to which players were eliminated in that round
+    [(3)]   -- Search a Tournament Round to which players were eliminated in that round
     [(4)]   -- Add a NEW TOURNAMENT to the database
     [(5)]   -- Add a NEW PLAYER to the database
     [(6)]   -- Add a NEW RESULT to the database
@@ -25,9 +25,12 @@ def cli_start_menu():
     [(p)]   -- See a list of all players in the database
     [(t)]   -- See a list of the tournaments in the database
     [(r)]   -- See a list of the possible tournament results a player can have
-    [(del)] -- Delete a record from the database
     [(x)]   -- Return to main menu, or exit app from main menu
         ''')
+
+# add these two line into the start menu and uncomment code below to activate delete functionality
+# [(del)] -- Delete a record from the database
+# [(w)]   -- Delete a Tournament
 
 def cli_start():
     select = ''
@@ -55,6 +58,8 @@ def cli_start():
             show_finish_options()
         if (select == 'del'):
             cli_delete_menu()
+        if (select == 'w'):
+            delete_tournament()
         select = click.prompt('Select Prompt')
 
 # search player name and see their results for each tournament
@@ -173,7 +178,7 @@ def add_new_tournament():
         new_tournament = Tournament(name= enter_new_tournament)
 
         session.add(new_tournament)
-        # session.commit()
+        session.commit()
 
         time.sleep(3)
         print(f'\nThank you for adding the {enter_new_tournament} tournament to our database! What would you like to do next?')
@@ -275,34 +280,50 @@ def show_finish_options():
     print("\nWhen you are ready, try another search!")
     cli_start_menu()
     
+# uncomment this method to activate the ability to delete a tournament
+# def delete_tournament():
+#     t_to_delete = int(input('Enter the tournament ID for the tournament you want to delete: '))
+#     if t_to_delete < 4:
+#         print('This tournament cannot be deleted. Try again.')
+#         time.sleep(2)
+#         cli_start_menu()
+#     else:
+#         session.query(Tournament).filter(Tournament.id > 3).filter(Tournament.id == t_to_delete).delete()
+#         session.commit()
+#         print('The tournament has been deleted. You will be re-routed to the main menu.')
+#         time.sleep(2)
+#         cli_start_menu()
 
-# delete records section
 
-def cli_delete_menu():
-    print('''
-    [(del-p)]  -- Delete a Player Record
-    [(del-t)]  -- Delete a Tournament Record
-    [(del-r)]  -- Delete a Result record
-    [(x)]      -- Return to  the main menu
-    ''')
+# delete records section - below probably deprecated
 
-def cli_delete():
-    select = ''
-    cli_delete_menu()
-    while select != 'x':
-        if (select == 'del-p'):
-            delete_player()
-        if (select == 'del-t'):
-            delete_tournament()
-        if (select == 'del-r'):
-            delete_result()
-        select = click.prompt('Select Prompt')
+# def cli_delete_menu():
+#     print('''
+#     [(n)]  -- Delete a Player Record
+#     [(delt)]  -- Delete a Tournament Record
+#     [(delr)]  -- Delete a Result record
+#     [(x)]      -- Return to  the main menu
+#     ''')
 
-def delete_player():
-    pass
+# def cli_delete():
+#     select = ''
+#     cli_delete_menu()
+#     while select != 'x':
+#         if (select == 'n'):
+#             delete_player()
+#         if (select == 'delt'):
+#             delete_tournament()
+#         if (select == 'delr'):
+#             delete_result()
+#         select = click.prompt('Select Prompt')
 
-def delete_tournament():
-    pass
+# def delete_player():
+#     print('This feature is not yet available. You will be re-routed to the main menu.')
+#     time.sleep(3)
+#     cli_start_menu()
 
-def delete_result():
-    pass
+# def delete_tournament():
+#     pass
+
+# def delete_result():
+#     pass
