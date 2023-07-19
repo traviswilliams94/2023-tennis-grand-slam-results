@@ -1,6 +1,7 @@
 import click
 from db.models import Player, Tournament, Result, Base
 from prettytable import PrettyTable
+import time
 
 
 from sqlalchemy import create_engine
@@ -14,15 +15,18 @@ session = Session()
 
 def cli_start_menu():
         print('''
-    [(1)] -- Search a player to see their Grand Slam Results
-    [(2)] -- Enter Tournament name to see the final four players
-    [(3)] -- Search a Tounrament Round to which players were eliminated in that round
-    [(4)] -- Add a New Tournament to the database
-    [(5)] -- Update a Player's Ranking
-    [(p)] -- See a list of all players in the database
-    [(t)] -- See a list of the tournaments in the database
-    [(r)] -- See a list of the possible tournament results a player can have
-    [(x)] -- Return to main menu, or exit app from main menu
+    [(1)]   -- Search a player to see their Grand Slam Results
+    [(2)]   -- Enter Tournament name to see the final four players
+    [(3)]   -- Search a Tounrament Round to which players were eliminated in that round
+    [(4)]   -- Add a NEW TOURNAMENT to the database
+    [(5)]   -- Add a NEW PLAYER to the database
+    [(6)]   -- Add a NEW RESULT to the database
+    [(7)]   -- Update a Player's Ranking
+    [(p)]   -- See a list of all players in the database
+    [(t)]   -- See a list of the tournaments in the database
+    [(r)]   -- See a list of the possible tournament results a player can have
+    [(del)] -- Delete a record from the database
+    [(x)]   -- Return to main menu, or exit app from main menu
         ''')
 
 def cli_start():
@@ -38,6 +42,10 @@ def cli_start():
         if (select == '4'):
             add_new_tournament()
         if (select == '5'):
+            add_new_player()
+        if (select == '6'):
+            add_new_result()
+        if (select == '7'):
             update_ranking()
         if (select == 'p'):
             show_all_players()
@@ -45,12 +53,11 @@ def cli_start():
             show_tournaments()
         if (select == 'r'):
             show_finish_options()
+        if (select == 'del'):
+            cli_delete_menu()
         select = click.prompt('Select Prompt')
-    # if (select == 'x'):
-    #     cli_start_menu()
 
-    #     select = click.prompt('Select Prompt')
-
+# search player name and see their results for each tournament
 def search_by_player():
     player_name = click.prompt('\nEnter the Player\'s name you want to search for, or enter x to return to the main menu')
 
@@ -75,9 +82,12 @@ def search_by_player():
                 player.finish
             ])
         print(table)
+        time.sleep(1)
+        print("\nWhen you are ready, try another search!")
+        cli_start_menu()
 
 
-
+#search by tournament name and see players who finisehd in semis, final or won the tournament
 def search_by_tournament():
     tournament_name = click.prompt('\n Enter the Tournament you want to search, or enter x to return to the main menu')
 
@@ -110,7 +120,12 @@ def search_by_tournament():
                 player.ranking
             ])
         print(table)
+        time.sleep(1)
+        print("\nWhen you are ready, try another search!")
+        cli_start_menu()
 
+
+# search round and receive list of players eliminated during that round
 def search_by_finish():
     finish_name = click.prompt('\n Enter the Tournament Result you want to search, or enter x to return to the main menu')
 
@@ -137,10 +152,70 @@ def search_by_finish():
                 player.finish
             ])
         print(table)
+        time.sleep(1)
+        print("\nWhen you are ready, try another search!")
+        cli_start_menu()
 
+
+# add a new tournament 
 def add_new_tournament():
+    print('''
+    Thank you for improving our database by adding a new tournament! Please enter the tournament name when prompted below.
+    Or enter x to return to the main menu.
+    ''')
+    time.sleep(3)
+
+    enter_new_tournament = str(input('Enter the name of the Tournament you would like to add: '))
+    if enter_new_tournament == 'x':
+        cli_start_menu()
+    else:
+
+        new_tournament = Tournament(name= enter_new_tournament)
+
+        session.add(new_tournament)
+        # session.commit()
+
+        time.sleep(3)
+        print(f'\nThank you for adding the {enter_new_tournament} tournament to our database! What would you like to do next?')
+        cli_start_menu()
+
+
+# add a new player
+def add_new_player():
+    print('''
+    Thank you for improving our database by adding a new player! Please enter the required info when prompted below.
+    Or enter x at any time to return to the main menu.
+    ''')
+    time.sleep(3)
+
+    new_player_name = str(input('Enter the NAME of the player you would like to add: '))
+    if new_player_name == 'x':
+        cli_start_menu()
+    else:
+        time.sleep(1)
+        new_player_gender = str(input('Enter the player\'s GENDER. Must be male or female: '))
+        if new_player_gender == 'x':
+            cli_start_menu()
+        else:
+            time.sleep(1)
+            new_player_ranking = click.prompt('\nEnter the player\'s current ranking as a number')
+            if new_player_ranking == 'x':
+                cli_start_menu()
+            else:
+
+                new_player = Player(name= new_player_name, gender= new_player_gender, ranking= new_player_ranking)
+                session.add(new_player)
+                session.commit()
+
+                time.sleep(3)
+                print(f'\n Thank you for adding {new_player_name} to our players database! What would you like to do next?')
+                cli_start_menu()
+
+def add_new_result():
     pass
 
+
+# update the ranking of an existing player
 def update_ranking():
     player_to_update = click.prompt('\nEnter the name of the player whose ranking you want to update, or enter x to return to the main menu')
     if player_to_update == 'x':
@@ -171,6 +246,8 @@ def show_all_players():
             player.ranking
         ])
     print(table)
+    time.sleep(1)
+    print("\nWhen you are ready, try another search!")
     cli_start_menu()
 
 def show_tournaments():
@@ -184,6 +261,8 @@ def show_tournaments():
             t.name
         ])
     print(table)
+    time.sleep(1)
+    print("\nWhen you are ready, try another search!")
     cli_start_menu()
 
 def show_finish_options():
@@ -191,5 +270,39 @@ def show_finish_options():
     options = ['First Round', 'Second Round', 'Third Round', 'Fourth Round', 'Quarters', 'Semis', 'Final', 'Winner', 'DNP']
     for i in options:
         print(i)
+
+    time.sleep(1)
+    print("\nWhen you are ready, try another search!")
     cli_start_menu()
     
+
+# delete records section
+
+def cli_delete_menu():
+    print('''
+    [(del-p)]  -- Delete a Player Record
+    [(del-t)]  -- Delete a Tournament Record
+    [(del-r)]  -- Delete a Result record
+    [(x)]      -- Return to  the main menu
+    ''')
+
+def cli_delete():
+    select = ''
+    cli_delete_menu()
+    while select != 'x':
+        if (select == 'del-p'):
+            delete_player()
+        if (select == 'del-t'):
+            delete_tournament()
+        if (select == 'del-r'):
+            delete_result()
+        select = click.prompt('Select Prompt')
+
+def delete_player():
+    pass
+
+def delete_tournament():
+    pass
+
+def delete_result():
+    pass
