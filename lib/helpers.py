@@ -28,7 +28,7 @@ def cli_start_menu():
     [(x)]   -- Return to main menu, or exit app from main menu
         ''')
 
-# add these two line into the start menu and uncomment code below to activate delete functionality
+# add these two lines into the start menu and uncomment code near bottom of file to activate delete functionality
 # [(del)] -- Delete a record from the database
 # [(w)]   -- Delete a Tournament
 
@@ -217,8 +217,27 @@ def add_new_player():
                 cli_start_menu()
 
 def add_new_result():
-    pass
+    print('''
+    Thank you for improving our database by adding a new result! Please enter the required info when prompted below.
+    ''')
+    time.sleep(3)
 
+    new_result_player_id = int(input('Enter the ID of the PLAYER you would like to add a result for: '))
+    time.sleep(1)
+    new_result_tournament_id = int(input('Enter the ID of the TOURNAMENT you would like to add the player\'s result for: '))
+    time.sleep(1)
+    new_result_round = str(input('Enter the player\'s final result (Second Round, Semis, Winner, etc). \n Or enter x to return to the main menu: '))
+
+    if new_result_round == 'x':
+        cli_start_menu()
+    else:
+        new_result = Result(player_id= new_result_player_id, tournament_id= new_result_tournament_id, finish= new_result_round)
+        session.add(new_result)
+        session.commit()
+
+        time.sleep(3)
+        print(f'\n Thank you for adding a new result to our database! What would you like to do next?')
+        cli_start_menu()
 
 # update the ranking of an existing player
 def update_ranking():
