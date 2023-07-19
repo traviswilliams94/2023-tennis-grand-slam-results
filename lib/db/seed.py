@@ -62,10 +62,11 @@ if __name__ == '__main__':
     player40 = Player(name="Jelena Ostapenko", gender="female", ranking= 20)
     player41 = Player(name="Magda Linnete", gender="female", ranking= 25)
     player42 = Player(name="Elina Svitolina", gender="female", ranking= 27)
+    player50 = Player(name="Test", gender="male", ranking= 100)
 
     session.add_all([player1, player2, player3, player4, player5, player6, player7, player8, player9, player10, player11, player12, player13, player14, player15, player16, player17,
     player18, player19, player20, player21, player22, player23, player24, player25, player26, player27, player28, player29, player30, player31, player32, player33, player34,
-    player35, player36, player37, player38, player39, player40, player41, player42])
+    player35, player36, player37, player38, player39, player40, player41, player42, player50])
 
     session.commit()
     
@@ -248,6 +249,10 @@ if __name__ == '__main__':
     result125 = Result(player_id= player42.id, tournament_id= french.id, finish="Quarters")
     result126 = Result(player_id= player42.id, tournament_id= wimbledon.id, finish="Semis")
 
+    result127 = Result(player_id= player50.id, tournament_id= aus.id, finish="DNP")
+    result128 = Result(player_id= player50.id, tournament_id= french.id, finish="DNP")
+    result129 = Result(player_id= player50.id, tournament_id= wimbledon.id, finish="DNP")
+
 
     session.add_all([result1, result2, result3, result4, result5, result6, result7, result8, result9, result10, result11, result12, result13, result14, result15, result16, result17,
     result18, result19, result20, result21, result22, result23, result24, result25, result26, result27, result28, result29, result30, result31, result32, result33, result34,
@@ -256,6 +261,6 @@ if __name__ == '__main__':
     result69, result70, result71, result72, result73, result74, result75, result76, result77, result78, result79, result80, result81, result82, result83, result84, result85,
     result86, result87, result88, result89, result90, result91, result92, result93, result94, result95, result96, result97, result98, result99, result100, result101, result102,
     result103, result104, result105, result106, result107, result108, result109, result110, result111, result112, result113, result114, result115, result116, result117, result118,
-    result119, result120, result121, result122, result123, result124, result125, result126])
+    result119, result120, result121, result122, result123, result124, result125, result126, result127, result128, result129])
     
     session.commit()
