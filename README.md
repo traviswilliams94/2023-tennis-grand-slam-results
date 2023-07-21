@@ -12,9 +12,13 @@ With this app you can:
 
 4. Add a Tournament to the database
 
-5. Add a Result to the database
+5. Add a Player to the database
 
-6. Update a player's ranking
+6. Add a Result to the database
+
+7. Update a player's ranking
+
+8. View all players or tournaments
 
 Players included are the men and women ranked 1-20 in the world as of July 17,2023. A couple extras because some dark horses did quite well on the women's side
 

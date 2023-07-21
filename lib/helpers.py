@@ -16,7 +16,7 @@ session = Session()
 def cli_start_menu():
         print('''
     [(1)]   -- Search a player to see their Grand Slam Results
-    [(2)]   -- Enter Tournament name to see the final four players
+    [(2)]   -- Search Tournament name to see the final four players
     [(3)]   -- Search a Tournament Round to which players were eliminated in that round
     [(4)]   -- Add a NEW TOURNAMENT to the database
     [(5)]   -- Add a NEW PLAYER to the database
@@ -216,6 +216,7 @@ def add_new_player():
                 print(f'\n Thank you for adding {new_player_name} to our players database! What would you like to do next?')
                 cli_start_menu()
 
+# add a new result
 def add_new_result():
     print('''
     Thank you for improving our database by adding a new result! Please enter the required info when prompted below.
